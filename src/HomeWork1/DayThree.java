@@ -44,7 +44,7 @@ public class DayThree {
             System.out.println("Ошибка: неверное количество баллов");
         }
         int hour = 6; /// Время
-        if (hour >= 6) {
+        if (hour  >= 6 && hour < 12) {
             System.out.println("Доброе утро!");
         } else if (hour >= 12) {
             System.out.println("Добрый день!");
@@ -98,7 +98,7 @@ public class DayThree {
         int c = 5; /// Треугольник
         int d = 4;
         int e = 8;
-        if (c + d > e || c + e > d || d + e > c) {
+        if (c + d > e && c + e > d && d + e > c) {
             System.out.println("Треугольник существует!");
 
         } else {

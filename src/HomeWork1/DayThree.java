@@ -43,17 +43,17 @@ public class DayThree {
         } else {
             System.out.println("Ошибка: неверное количество баллов");
         }
-        int hour = 6; /// Время
-        if (hour  >= 6 && hour < 12) {
+        int hour = 20; /// Время
+
+        if (hour >= 6 && hour < 12) {
             System.out.println("Доброе утро!");
-        } else if (hour >= 12) {
+        } else if (hour >= 12 && hour < 18) {
             System.out.println("Добрый день!");
-        } else if (hour >= 18) {
+        } else if (hour >= 18 && hour < 23) {
             System.out.println("Добрый вечер!");
-        } else if (hour >= 23) {
-            System.out.println("Доброй ночи!");
         } else {
-            System.out.println("Добро ночи!");
+
+            System.out.println("Доброй ночи!");
         }
 
         double amount = 1398;  /// Размер скидки

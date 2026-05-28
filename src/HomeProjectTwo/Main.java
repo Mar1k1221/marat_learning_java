@@ -1,6 +1,6 @@
 package HomeProjectTwo;
 
-import com.sun.source.tree.BreakTree;
+
 
 import java.util.Scanner;
 
@@ -13,6 +13,10 @@ public class Main {
         String item = scanner.nextLine();
         System.out.println("Введите количество оценок: ");
         int size = scanner.nextInt();
+        if (size <= 0) {
+            System.out.println("Оценок нет, считать нечего! Программа завершена.");
+            return;
+        }
         int[] grades = new int[size];
         System.out.println("Введите оценки ученика: ");
         for (int i = 0; i < size; i++) {
@@ -84,18 +88,25 @@ public class Main {
     }
 
     static void finalRecommendation(int[] arr) {
+        double sum = 0;
         for (int i = 0; i < arr.length; i++) {
-            if (arr[i] == 5) {
-                System.out.println("Отлично! Ваша оценка: " + arr[i]);
-            } else if (arr[i] == 4) {
-                System.out.println("Нормально! Ваша оценка: " + arr[i]);
-            } else {
-                System.out.println("Нужно подтянуть! Ваша оценка: " + arr[i]);
-            }
+            sum += arr[i];
+        }
+        double average = sum / arr.length;
+        if (average >= 4.5) {
+            System.out.println("Отлично! Ваша итоговая оценка: " + average);
+        } else if (average >= 3.5) {
+            System.out.println("Нормально! Ваша итоговая оценка: " + average);
+        } else {
+            System.out.println("Нужно подтянуть! Ваша итоговая оценка: " + average);
         }
     }
 
     static double averageWithoutMin(int[] arr) {
+        if (arr.length <= 1) {
+            System.out.println("Недостаточно оценок для расчета среднего балла без минимальной.");
+            return 0;
+        }
         int sum = 0;
         int min = arr[0];
         for (int i = 0; i < arr.length; i++) {

@@ -8,7 +8,7 @@ public class DayOne {
         }
         int sum = 0;
         for (int i = 0; i < numbers.length; i++) {
-            sum += i;
+            sum += numbers[i];
         }
         System.out.println("Сумма всех элементов массива: " + sum); ///Сумма всех элементов массива
 

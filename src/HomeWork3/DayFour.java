@@ -71,8 +71,8 @@ public class DayFour {
 
     static Task findFirstImportantTask(ArrayList<Task> arr) {
         for (Task t : arr) {
-            if (t.priority == 1) {
-                return t; /// Возвращает переменную типа таск, если условие true
+            if (t.priority == 1 && t.isDone == false) {
+                return t;                                                             /// Возвращает переменную типа таск, если условие true
             }
         }
         return null; /// Если предыдущее условие false, то мы вернем null(пустоту)

@@ -20,7 +20,7 @@ public class TaskList {
             System.out.println("Задача выполнена? Введите true или false.");
             boolean isCompleted = sc.nextBoolean();
             sc.nextLine();
-            Task task1 = new Task(title,priorety,isCompleted);
+            Task task1 = new Task(title, priorety, isCompleted);
             tasks.add(task1);
 
 
@@ -40,22 +40,22 @@ public class TaskList {
         System.out.println("Средний приоритет среди задач:  " + resultAveragePriority);
 
 
-       String resultSummary =  getSummary(tasks);
+        String resultSummary = getSummary(tasks);
         System.out.println(resultSummary);
 
         if (!tasks.isEmpty()) {
             System.out.println("Введите слово для поиска совпадений: ");
             String str = sc.nextLine();
-            System.out.println("Результат совпадений: " + containsWord(tasks.get(0), str));
+            System.out.println("Результат совпадений: " + containsWord(tasks, str));
         }
-        if (!tasks.isEmpty()){
+        if (!tasks.isEmpty()) {
             System.out.println("Введите индекс задачи которую хотите удалить.");
-            int num= sc.nextInt();
+            int num = sc.nextInt();
             sc.nextLine();
             if (num >= 0 && num < tasks.size()) {
                 tasks.remove(num);
                 System.out.println("Задача по индексу " + num + " было удалена.");
-            }else {
+            } else {
                 System.out.println("Задачи по такой индексу не было найдено.");
             }
         } else {
@@ -63,9 +63,6 @@ public class TaskList {
         }
 
     }
-
-
-
 
 
     static void printTasks(ArrayList<Task> arr) {
@@ -115,14 +112,14 @@ public class TaskList {
         return average;
     }
 
-    static boolean containsWord(Task task, String word) {
-        boolean resultContains = false;
+    static boolean containsWord(ArrayList<Task> arr, String word) {
         String w = word.toLowerCase();
-        if (task.title.toLowerCase().contains(w)) {
-            resultContains = true;
-
+        for (Task t : arr) {
+            if (t.title.toLowerCase().contains(w)) {
+                return true;
+            }
         }
-        return resultContains;
+        return false;
     }
 
     static String getSummary(ArrayList<Task> arr) {
@@ -138,7 +135,7 @@ public class TaskList {
 }
 
 
-class Task{
+class Task {
     String title;
     int priority;
     boolean isCompleted;

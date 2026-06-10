@@ -20,13 +20,11 @@ public class DayFive {
             if (command.equals("1")) {
                 System.out.println("Укажите название фильма: ");
                 String title = scanner.nextLine();
-                System.out.println("Укажите рейтинг фильма: ");
-                double rating = scanner.nextDouble();
-                scanner.nextLine();
-                System.out.println("Статус просмотра фильма: ");
-                boolean isWatched = scanner.nextBoolean();
-                scanner.nextLine();
-                Movie movOne = new Movie(title,rating,isWatched);
+                System.out.println("Укажите рейтинг фильма (через точку, например 8.7): ");
+                double rating = Double.parseDouble(scanner.nextLine());
+                System.out.println("Статус просмотра фильма (true/false): ");
+                boolean isWatched = Boolean.parseBoolean(scanner.nextLine());
+                Movie movOne = new Movie(title, rating, isWatched);
                 movies.add(movOne);
 
 

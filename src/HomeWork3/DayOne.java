@@ -50,9 +50,9 @@ System.out.println("У ученика " + st3.name +  " был изменен б
             return averageGrade;
         } static void minimumAge (Student [] arr){
             Student young= arr[0];
-            for (int i = 0; i < arr.length; i++){
+            for (int i = 1; i < arr.length; i++){
                 if (arr[i].age < young.age ){
-                    young.age = arr[i].age;
+                    young = arr[i];
                 }
 
 

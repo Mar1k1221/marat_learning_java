@@ -1,8 +1,6 @@
 package HomeProjectFour;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Scanner;
 
 public class Main {
@@ -24,49 +22,65 @@ public class Main {
         Scanner sc = new Scanner(System.in);
 
         while (true) {
-            System.out.println("0 - закрыть меню");
+            System.out.println("\n0 - закрыть меню");
             System.out.println("1 - добавить книгу");
             System.out.println("2 - вывести все книги");
-            System.out.println("3 - поиск книги по названию");
+            System.out.println("3 - поиск книги по названию или автору");
             System.out.println("4 - изменить статус книги");
             System.out.println("5 - поиск книги с высоким рейтингом");
-            System.out.println("6 - расчет среднего рейтинга ");
+            System.out.println("6 - расчет среднего рейтинга");
             System.out.println("7 - удалить книгу");
             System.out.println("8 - итог по библиотеке");
             System.out.println("9 - сортировка книг по возрастанию");
-            int result1 = Integer.parseInt(sc.nextLine());
+
+            int result1;
+            try {
+                result1 = Integer.parseInt(sc.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Ошибка ввода: пожалуйста, введите число пункта меню.");
+                continue;
+            }
+
             if (result1 == 0) {
                 System.out.println("Закрываем меню...");
                 break;
             }
+
             switch (result1) {
                 case 1:
-                    System.out.println("Введите фамилию и имя автора: ");
-                    String resultAuthor = sc.nextLine();
-                    System.out.println("Укажите название книги: ");
-                    String resultTtitle = sc.nextLine();
-                    System.out.println("Укажите год ее выпуска: ");
-                    int resultYear = Integer.parseInt(sc.nextLine());
-                    System.out.println("Введите рейтинг книги: ");
-                    double resultRating = Double.parseDouble(sc.nextLine());
-                    System.out.println("Укажите статус книги: ");
-                    String resultStatus = sc.nextLine();
-                    BookStatus bookStringStatus = BookStatus.valueOf(resultStatus.toUpperCase());
-                    Book newBook = new Book(resultAuthor, resultTtitle, resultYear, resultRating, bookStringStatus);
-                    librartService.addBook(newBook);
-                    System.out.println("Книга успешно добавлена.");
+                    try {
+                        System.out.println("Введите фамилию и имя автора: ");
+                        String resultAuthor = sc.nextLine();
+                        System.out.println("Укажите название книги: ");
+                        String resultTtitle = sc.nextLine();
+                        System.out.println("Укажите год ее выпуска: ");
+                        int resultYear = Integer.parseInt(sc.nextLine());
+                        System.out.println("Введите рейтинг книги: ");
+                        double resultRating = Double.parseDouble(sc.nextLine());
+                        System.out.println("Укажите статус книги (READING, PLANNED, FINISHED): ");
+                        String resultStatus = sc.nextLine();
+                        BookStatus bookStringStatus = BookStatus.valueOf(resultStatus.toUpperCase());
+
+                        Book newBook = new Book(resultAuthor, resultTtitle, resultYear, resultRating, bookStringStatus);
+                        librartService.addBook(newBook);
+                        System.out.println("Книга успешно добавлена.");
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Ошибка при создании книги: " + e.getMessage() + " Или неверно указан статус.");
+                    } catch (Exception e) {
+                        System.out.println("Ошибка ввода: ожидалось число.");
+                    }
                     break;
                 case 2:
                     librartService.printBook();
                     break;
                 case 3:
-                    System.out.println("Введите название книги для поиска: ");
+                    System.out.println("Введите фрагмент названия книги или автора для поиска: ");
                     String searchResult = sc.nextLine();
                     Book bookResult = librartService.findFirstByWord(searchResult);
                     if (bookResult == null) {
                         System.out.println("Совпадений не было найдено.");
                     } else {
-                        System.out.println("Совпадение было найдено, автор данной книги: -  " + bookResult.getAuthor());
+                        System.out.println("Совпадение было найдено, автор данной книги: -  " + bookResult.getAuthor() + ", Название: " + bookResult.getTitle());
                     }
                     break;
                 case 4:
@@ -74,9 +88,12 @@ public class Main {
                     String changeResult = sc.nextLine();
                     System.out.println("Укажите статус на который нужно изменить: - READING, PLANNED, FINISHED");
                     String resultStatusBook = sc.nextLine();
-                    BookStatus bookStatus = BookStatus.valueOf(resultStatusBook.toUpperCase());
-                    librartService.changeStatus(changeResult, bookStatus);
-                    System.out.println("Статус книги изменен успешно.");
+                    try {
+                        BookStatus bookStatus = BookStatus.valueOf(resultStatusBook.toUpperCase());
+                        librartService.changeStatus(changeResult, bookStatus);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Ошибка: такого статуса не существует.");
+                    }
                     break;
                 case 5:
                     System.out.println("Ищем книгу с самым высоким рейтингом....");
@@ -93,13 +110,17 @@ public class Main {
                     System.out.println("Результат среднего рейтинга - " + resultAverage);
                     break;
                 case 7:
-                    System.out.println("Введите номер книги для удаления. Отсчет начинается с 0 - n");
-                    int resultRemove = Integer.parseInt(sc.nextLine());
-                    boolean statusRemove = librartService.removeBook(resultRemove);
-                    if (statusRemove) {
-                        System.out.println("Книга успешно удалена из списка.");
-                    } else {
-                        System.out.println("Ошибка, книга не удалена.");
+                    System.out.println("Введите номер книги для удаления. Отсчет начинается с 0");
+                    try {
+                        int resultRemove = Integer.parseInt(sc.nextLine());
+                        boolean statusRemove = librartService.removeBook(resultRemove);
+                        if (statusRemove) {
+                            System.out.println("Книга успешно удалена из списка.");
+                        } else {
+                            System.out.println("Ошибка, книга не удалена. Неверный индекс.");
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Ошибка ввода: индекс должен быть числом.");
                     }
                     break;
                 case 8:
@@ -109,8 +130,9 @@ public class Main {
                 case 9:
                     librartService.sortRatingBook();
                     break;
-
-
+                default:
+                    System.out.println("Такого пункта меню нет. Выберите от 0 до 9.");
+                    break;
             }
         }
     }
@@ -139,7 +161,7 @@ class Book {
         if (title != null && !title.trim().isEmpty()) {
             this.title = title;
         } else {
-            System.out.println("Отсутствует название книги.");
+            throw new IllegalArgumentException("Отсутствует название книги.");
         }
     }
 
@@ -151,7 +173,7 @@ class Book {
         if (author != null && !author.trim().isEmpty()) {
             this.author = author;
         } else {
-            System.out.println("Отсутствуют данные автора книги.");
+            throw new IllegalArgumentException("Отсутствуют данные автора книги.");
         }
     }
 
@@ -163,9 +185,8 @@ class Book {
         if (year > 0 && year < 2027) {
             this.year = year;
         } else {
-            System.out.println("Год книги указан неверно.");
+            throw new IllegalArgumentException("Год книги указан неверно.");
         }
-
     }
 
     public double getRating() {
@@ -176,7 +197,7 @@ class Book {
         if (rating >= 0 && rating <= 10) {
             this.rating = rating;
         } else {
-            System.out.println("Рейтинг указан неверно.");
+            throw new IllegalArgumentException("Рейтинг указан неверно (должен быть от 0 до 10).");
         }
     }
 
@@ -185,9 +206,11 @@ class Book {
     }
 
     public void setBookStatus(BookStatus bookStatus) {
+        if (bookStatus == null) {
+            throw new IllegalArgumentException("Статус не может быть пустым.");
+        }
         this.bookStatus = bookStatus;
     }
-
 }
 
 enum BookStatus {
@@ -198,7 +221,6 @@ enum BookStatus {
 
 class LibrartService {
     private ArrayList<Book> arrayBook = new ArrayList<>();
-
 
     public void printBook() {
         if (arrayBook.isEmpty()) {
@@ -214,8 +236,12 @@ class LibrartService {
     }
 
     public Book findFirstByWord(String word) {
+        if (word == null || word.trim().isEmpty()) {
+            return null;
+        }
+        String searchWord = word.toLowerCase();
         for (Book b : arrayBook) {
-            if (b.getTitle().equalsIgnoreCase(word) || b.getAuthor().equalsIgnoreCase(word)) {
+            if (b.getTitle().toLowerCase().contains(searchWord) || b.getAuthor().toLowerCase().contains(searchWord)) {
                 return b;
             }
         }
@@ -234,12 +260,12 @@ class LibrartService {
 
     public void changeStatus(String name, BookStatus status) {
         for (Book b : arrayBook) {
-            if (name.equals(b.getTitle())) {
+
+            if (name.equalsIgnoreCase(b.getTitle())) {
                 b.setBookStatus(status);
+                System.out.println("Статус книги изменен успешно.");
                 return;
             }
-
-
         }
         System.out.println("Книга с таким названием не найдена.");
     }
@@ -250,8 +276,6 @@ class LibrartService {
             return true;
         }
         return false;
-
-
     }
 
     public double averageFinishedRating() {
@@ -270,8 +294,6 @@ class LibrartService {
     public Book findBestBook() {
         if (arrayBook == null || arrayBook.isEmpty()) {
             return null;
-
-
         }
         Book bestBook = arrayBook.get(0);
         for (Book b : arrayBook) {
@@ -290,7 +312,6 @@ class LibrartService {
         summary = summary + "Общее количество книг: " + arrayBook.size() + "\n";
         summary = summary + "Список изданий:\n";
 
-
         for (int i = 0; i < arrayBook.size(); i++) {
             Book book = arrayBook.get(i);
             summary = summary + (i + 1) + ". " + book.getTitle() + " — " + book.getAuthor() + "\n";
@@ -298,12 +319,12 @@ class LibrartService {
 
         return summary;
     }
-     public void sortRatingBook(){
-         arrayBook.sort((p1, p2) -> Double.compare(p1.getRating(), p2.getRating()));
-         for (Book b:arrayBook){
-             System.out.println("Название книги: " + b.getTitle() + " Автор: "
-                     + b.getAuthor() + " Год издания: " + b.getYear() + " Рейтинг: " + b.getRating());
-         }
 
-     }
+    public void sortRatingBook(){
+        arrayBook.sort((p1, p2) -> Double.compare(p1.getRating(), p2.getRating()));
+        for (Book b:arrayBook){
+            System.out.println("Название книги: " + b.getTitle() + " Автор: "
+                    + b.getAuthor() + " Год издания: " + b.getYear() + " Рейтинг: " + b.getRating());
+        }
+    }
 }

@@ -3,7 +3,7 @@ package HomeWork4;
 import java.util.ArrayList;
 
 public class DayTwoPartThree {
-    static void main(String[] args) {
+   public static void main(String[] args) {
         CosmeticProduct cosmeticProduct1 = new CosmeticProduct("WWW","letual","zinc");
         CosmeticProduct cosmeticProduct2 = new CosmeticProduct("AAA","gold apple","so-13");
         CosmeticProduct cosmeticProduct3 = new CosmeticProduct("BBB","zm","D-1");

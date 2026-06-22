@@ -3,7 +3,7 @@ package HomeWork4;
 import java.util.ArrayList;
 
 public class DayTwoPartFour {
-    static void main(String[] args) {
+    public static void main(String[] args) {
         ShortVideo shortVideo1 = new ShortVideo("Video-1",30,true,76767);
         ShortVideo shortVideo2 = new ShortVideo("Video-2",60,false,13909);
         ShortVideo shortVideo3 = new ShortVideo("Video-3",22,true,90987);
